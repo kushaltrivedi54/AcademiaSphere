@@ -13,3 +13,5 @@ const getCollectionFn = async (collection) => {
   };
 };
 
+export const users = await getCollectionFn("users");
+export const passwordresets = await getCollectionFn("passwordresets");
