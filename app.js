@@ -42,9 +42,33 @@ app.use("/", (req, res, next) => {
 });
 
 
+const eqHelper = function (a, b) {
+  return a === b;
+};
+
+const gtHelper = function (a, b) {
+  return a > b;
+};
+
+const gtD = function (a, b) {
+  const x = new Date(a);
+  const y = new Date(b);
+  return x > y;
+};
+const ifUserType = function (roleString, session_type, options) {
+  const roleArray = roleString.split(',');
+
+  if (Array.isArray(roleArray) && roleArray.includes(session_type)) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+}
+
 const handlebars = exphbs.create({
   defaultLayout: "main",
   partialsDir: ["views/partials/"],
+  helpers: { eq: eqHelper, gt: gtHelper, gtD: gtD, ifUserType: ifUserType },
 });
 
 app.engine("handlebars", handlebars.engine);
@@ -53,7 +77,6 @@ app.set("view engine", "handlebars");
 app.set("views", "./views");
 
 route(app);
-
 
 
 app.listen(8080, () => {

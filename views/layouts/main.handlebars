@@ -20,7 +20,7 @@
     <script src="/scripts/bootstrap.bundle.min.js"></script>
     <script src="/scripts/bootstrap-select.min.js"></script>
 
-    <title>University Management System</title>
+    <title>AgiSynergy</title>
 </head>
 
 <body>
@@ -29,51 +29,13 @@
         {{#if session_type}}
         <nav id="sidebar" class="glassEffect d-flex flex-column">
             <div>
-                <div class="fs-5 headSidebar mt-4 glassEffect">UMS</div>
+                <div class="fs-5 headSidebar mt-4 glassEffect">AgiSynergy</div>
                 <ul class="list-unstyled components">
                     <li class="py-1">
                         <a class="hover" href="/dashboard"><span class="animateHover"></span><span>Dashboard</span></a>
                     </li>
-                    {{#ifUserType 'Admin,Student' session_type}}
-                    <li class="py-1">
-                        <a class="hover" href="/courses"><span class="animateHover"></span><span>Course</span></a>
-                    </li>
-                    {{/ifUserType}}
                 </ul>
             </div>
-
-            {{#if sectionID}}
-            <div>
-                <div class="fs-5 headSidebar glassEffect">Section</div>
-                <ul class="list-unstyled components">
-                    <li class="py-1">
-                        <a class="hover" href="/sections/{{sectionID}}"><span
-                                class="animateHover"></span><span>Home</span></a>
-                    </li>
-                    <li class="py-1">
-                        <a class="hover" href="/sections/{{sectionID}}/modules"><span
-                                class="animateHover"></span><span>Modules</span></a>
-                    </li>
-                    <li class="py-1">
-                        <a class="hover" href="/sections/{{sectionID}}/assignments/"><span
-                                class="animateHover"></span><span>Assignments</span></a>
-                    </li>
-                    <li class="py-1">
-                        <a class="hover" href="/sections/{{sectionID}}/grades/"><span
-                                class="animateHover"></span><span>Grades</span></a>
-                    </li>
-
-                    {{#if courseId}}
-                    <li class="py-1">
-                        <a class="hover" href="/courses/{{courseId}}/materials/"><span
-                                class="animateHover"></span><span>Course Repository</span>
-                        </a>
-                    </li>
-                    {{/if}}
-                </ul>
-            </div>
-
-            {{/if}}
 
             <div class="mt-auto">
                 <div class="fs-5 headSidebar glassEffect">{{session_type}}</div>
