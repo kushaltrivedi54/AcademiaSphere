@@ -27,7 +27,7 @@ function route(app) {
     app.use("/users", user_management);
     app.use("/configuration", adminsOnly);
     app.use("/", (req, res) => {
-        res.redirect("/dashboard");
+        res.redirect("/login");
     });
 }
 

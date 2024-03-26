@@ -1,7 +1,7 @@
 {
-  "name": "agisynergy",
+  "name": "academiasphere",
   "version": "1.0.0",
-  "description": "Team 21 - Agile Project",
+  "description": "DevOps Project",
   "main": "app.js",
   "type": "module",
   "scripts": {
