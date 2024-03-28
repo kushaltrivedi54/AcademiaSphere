@@ -3,7 +3,6 @@
 
 <head>
     <script>
-        // Access the darkmode variable from res.locals
         var _isDarkMode = {{ darkmode }};
     </script>
     <meta charset="utf-8">
@@ -20,60 +19,22 @@
     <script src="/scripts/bootstrap.bundle.min.js"></script>
     <script src="/scripts/bootstrap-select.min.js"></script>
 
-    <title>University Management System</title>
+    <title>AcademiaSphere</title>
 </head>
 
 <body>
-<div class="wrapper">
-    <!-- Sidebar  -->
-    {{#if session_type}}
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        {{#if session_type}}
         <nav id="sidebar" class="glassEffect d-flex flex-column">
             <div>
-                <div class="fs-5 headSidebar mt-4 glassEffect">UMS</div>
+                <div class="fs-5 headSidebar mt-4 glassEffect">AcademiaSphere</div>
                 <ul class="list-unstyled components">
                     <li class="py-1">
                         <a class="hover" href="/dashboard"><span class="animateHover"></span><span>Dashboard</span></a>
                     </li>
-                    {{#ifUserType 'Admin,Student' session_type}}
-                        <li class="py-1">
-                            <a class="hover" href="/courses"><span class="animateHover"></span><span>Course</span></a>
-                        </li>
-                    {{/ifUserType}}
                 </ul>
             </div>
-
-            {{#if sectionID}}
-                <div>
-                    <div class="fs-5 headSidebar glassEffect">Section</div>
-                    <ul class="list-unstyled components">
-                        <li class="py-1">
-                            <a class="hover" href="/sections/{{sectionID}}"><span
-                                    class="animateHover"></span><span>Home</span></a>
-                        </li>
-                        <li class="py-1">
-                            <a class="hover" href="/sections/{{sectionID}}/modules"><span
-                                    class="animateHover"></span><span>Modules</span></a>
-                        </li>
-                        <li class="py-1">
-                            <a class="hover" href="/sections/{{sectionID}}/assignments/"><span
-                                    class="animateHover"></span><span>Assignments</span></a>
-                        </li>
-                        <li class="py-1">
-                            <a class="hover" href="/sections/{{sectionID}}/grades/"><span
-                                    class="animateHover"></span><span>Grades</span></a>
-                        </li>
-
-                        {{#if courseId}}
-                            <li class="py-1">
-                                <a class="hover" href="/courses/{{courseId}}/materials/"><span
-                                        class="animateHover"></span><span>Course Repository</span>
-                                </a>
-                            </li>
-                        {{/if}}
-                    </ul>
-                </div>
-
-            {{/if}}
 
             <div class="mt-auto">
                 <div class="fs-5 headSidebar glassEffect">{{session_type}}</div>
@@ -81,7 +42,7 @@
 
                     <li class="py-1">
                         <a href="#"><span class="animateHover"></span><span><img class="iconSwitch"
-                                                                                 src="/icons/user-circle.svg" alt="user-circle-icon">{{session_name}}</span></a>
+                                    src="/icons/user-circle.svg" alt="user-circle-icon">{{session_name}}</span></a>
                     </li>
                     <li class="py-1">
                         <a href="#"><span class="animateHover"></span><span>{{session_email}}</span></a>
@@ -92,10 +53,10 @@
                                 <img class="iconSwitch invertColor" src="/icons/lightmode.svg" alt="lightmode">
                             </div>
                             <div class=""><a href="#" class="p-0">
-                                <div id="switch" class="m-4 switched">
-                                    <div id="circle"></div>
-                                </div>
-                            </a></div>
+                                    <div id="switch" class="m-4 switched">
+                                        <div id="circle"></div>
+                                    </div>
+                                </a></div>
                             <div class="my-auto me-auto">
                                 <img class="iconSwitch invertColor" src="/icons/darkmode.svg" alt="darkmode">
                             </div>
@@ -108,61 +69,61 @@
             </div>
 
         </nav>
-    {{/if}}
+        {{/if}}
 
-    {{!-- <li class="nav-item hamIcon me-4">
-        <div id="sidebarCollapse" class="border-0 p-0 m-0">
-            <div class="hamburger p-1" id="hamburger-4">
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
+        {{!-- <li class="nav-item hamIcon me-4">
+            <div id="sidebarCollapse" class="border-0 p-0 m-0">
+                <div class="hamburger p-1" id="hamburger-4">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+            </div>
+        </li> --}}
+
+
+        <!-- Page Content  -->
+        <div id="content" class="mt-4">
+            {{{body}}}
+        </div>
+    </div>
+    <div class="toast-container position-absolute top-0 end-0 p-5">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+            data-bs-autohide="false">
+            <div class="toast-header">
+                <img src="/icons/error.svg" alt="errorIcon">
+                <strong class="me-auto ms-2" id="toastHeadMsg">Bootstrap</strong>
+                <small>Just Now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Hello, world! This is a toast message.
             </div>
         </div>
-    </li> --}}
-
-
-    <!-- Page Content  -->
-    <div id="content" class="mt-4">
-        {{{body}}}
     </div>
-</div>
-<div class="toast-container position-absolute top-0 end-0 p-5">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
-         data-bs-autohide="false">
-        <div class="toast-header">
-            <img src="/icons/error.svg" alt="errorIcon">
-            <strong class="me-auto ms-2" id="toastHeadMsg">Bootstrap</strong>
-            <small>Just Now</small>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            Hello, world! This is a toast message.
-        </div>
-    </div>
-</div>
 
-<script>
-    $(document).ready(function () {
-        $('#sidebarCollapse').on('click', function () {
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
 
-            sidebarToggle();
+                sidebarToggle();
+            });
+
+            if (window.location.pathname === "/login/" || window.location.pathname === "/login") {
+                sidebarToggle();
+            }
+
+            function sidebarToggle() {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            }
         });
-
-        if (window.location.pathname === "/login/" || window.location.pathname === "/login") {
-            sidebarToggle();
-        }
-
-        function sidebarToggle() {
-            $('#sidebar').toggleClass('active');
-            $('#content').toggleClass('active');
-        }
-    });
-</script>
-<script src="/scripts/verification.js"></script>
-<script src="/scripts/request.js"></script>
-{{#if script}}
+    </script>
+    <script src="/scripts/verification.js"></script>
+    <script src="/scripts/request.js"></script>
+    {{#if script}}
     {{> (lookup . 'script') }}
-{{/if}}
+    {{/if}}
 </body>
 
 </html>
