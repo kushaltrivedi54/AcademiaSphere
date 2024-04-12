@@ -21,6 +21,8 @@ app.use("/icons", iconsDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const port = process.env.PORT || 8080;
+
 app.use(
   session({
     secret: process.env.CookieSecret,
@@ -79,7 +81,6 @@ app.set("views", "./views");
 route(app);
 
 
-app.listen(8080, () => {
-  console.log("Running web server on port 8080");
-  console.log(`http://localhost:8080/`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
