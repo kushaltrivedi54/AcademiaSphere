@@ -57,6 +57,7 @@ router.post("/departments/register", async (req, res) => {
   } catch (error) {
     res.status(400);
     res.json({ error: error.message });
+    // res.render('admin/departments', { error: 'Registration failed. Please try again.' });
   }
 });
 

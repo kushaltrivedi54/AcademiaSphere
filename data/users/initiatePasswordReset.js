@@ -3,6 +3,8 @@ import { randomUUID } from "crypto";
 import { passwordresets, users } from "../../config/mongoCollections.js";
 import verify from "../../data_validation.js";
 
+import { sendPasswordResetEmail } from "../emails/sendPasswordResetEmail.js";
+
 async function initiatePasswordReset(email) {
   email = verify.email(email);
 
@@ -10,8 +12,17 @@ async function initiatePasswordReset(email) {
   const resetscol = await passwordresets();
 
   const user = await usercol.findOne(
-    { email: email, status: "Active" },
-    { projection: { _id: 1 } }
+    { email: email, status: { $in: ["Active", "Initialized"] } },
+    {
+      projection: {
+        password: 1,
+        type: 1,
+        firstname: 1,
+        lastname: 1,
+        email: 1,
+        preferences: 1,
+      },
+    }
   );
 
   if (!user) {
@@ -59,6 +70,7 @@ async function initiatePasswordReset(email) {
   }
 
   try {
+    await sendPasswordResetEmail(email, secret);
     return { successful: true };
   } catch (e) {
     // Clean up

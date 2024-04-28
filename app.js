@@ -2,15 +2,21 @@ import "dotenv/config";
 import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import lusca from "lusca";
 import exphbs from "express-handlebars";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
+import SMTPConnect from "./config/smptConnection.js";
 import { dbConnection } from "./config/mongoConnection.js";
 import route from "./routes/index.js";
 
+import scheduler from "./cronjobs/index.js";
+import cleanupresets from "./cronjobs/cleanupresets.js";
 
+const smptconnection = SMTPConnect();
 const databaseconnection = dbConnection();
+
 const app = express();
 
 // Serve static files from the 'icons' directory
@@ -18,10 +24,9 @@ const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
 const iconsDir = express.static(__dirname + "/static/icons");
 app.use("/icons", iconsDir);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const port = process.env.PORT || 8080;
 
 app.use(
   session({
@@ -43,7 +48,22 @@ app.use("/", (req, res, next) => {
   next();
 });
 
+// app.use(
+//   lusca({
+//     csrf: true,
+//     /*csp: {
+//        ...
+//     },*/
+//     xframe: "SAMEORIGIN",
+//     p3p: "ABCDEF",
+//     hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+//     xssProtection: true,
+//     nosniff: true,
+//     referrerPolicy: "same-origin",
+//   })
+// );
 
+// Define the eq helper
 const eqHelper = function (a, b) {
   return a === b;
 };
@@ -80,7 +100,33 @@ app.set("views", "./views");
 
 route(app);
 
+smptconnection.verify(function (error, success) {
+  if (error) {
+    console.log(error);
+    throw "Failed to connect to SMTP";
+  } else {
+    console.log("Connected to SMTP Server");
+  }
+});
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+if (await databaseconnection) {
+  console.log("Connected to Database Server");
+  try {
+    cleanupresets().then((result) => {
+      console.log(result);
+    });
+  } catch (e) {
+    console.log(
+      "Failed to perform deletion of expired password reset requests"
+    );
+    console.log(e);
+  }
+  scheduler.startById("id_1");
+} else {
+  throw "Failed to connect to database";
+}
+
+app.listen(8080, () => {
+  console.log("Running web server on port 8080");
+  console.log(`http://localhost:8080/`);
 });

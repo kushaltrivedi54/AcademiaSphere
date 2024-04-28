@@ -1,12 +1,25 @@
 <div class="d-flex fs-2">
     <div class="my-auto">
-        <img class="iconSwitch" src="./icons/dashboardCourse.svg" alt="loginIcon"> Dashboard
+        <img class="iconSwitch" src="./icons/dashboardCourse.svg" alt="loginIcon"> Workspace
+    </div>
+    <div class="my-auto text-muted fs-5" id="reportCount"></div>
+    <div class="form-floating ms-auto fs-6">
+        <input class="form-control blockdisplay" type="text" placeholder="sad" id="searchInput">
+        <label for="searchInput"><img class="iconSwitch" src="/icons/search.svg" alt="moduleIcon">
+            Search</label>
     </div>
 </div>
 
 
 <div class="row mt-4">
-
-
-
+    {{#each workspace}}
+    <div class="col-md-4 col-12 mb-5 searchData">
+        <a class="text-decoration-none" href="/sections/{{sectionId}}">
+            <div class="card glassEffect">
+                <div class="card-header glassEffect">{{courseNumber}}: {{courseName}}</div>
+                <div class="card-body">Section: {{sectionName}} | Delivery: {{sectionType}}</div>
+            </div>
+        </a>
+    </div>
+    {{/each}}
 </div>

@@ -1,6 +1,7 @@
 import { Router, query } from "express";
 import verify, { santizeInputs } from "../../data_validation.js";
 import * as courseDataFunctions from "../../data/courses/courses.js";
+import util from "util";
 import {
   validateCourse,
   validateSection,
@@ -14,6 +15,7 @@ import fileSizesLimiter from "../../routes/middleware/fileSizeLimiter.js";
 import { fileURLToPath } from "url";
 import path from "path";
 import { dirname } from "path";
+import { inflateRawSync } from "zlib";
 import fs from "fs";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -109,6 +111,7 @@ router.put("/update", async (req, res) => {
       course.courseDescription
     );
     if (result.acknowledged) {
+      // window.location.href = "/courses/" + result.insertedId;
       return res.json(result);
     } else {
       throw "Unexpected result";
@@ -154,6 +157,7 @@ router.post("/registration", async (req, res) => {
       course.courseYear
     );
     if (result.acknowledged) {
+      // window.location.href = "/courses/" + result.insertedId;
       return res.json(result);
     } else {
       throw "Unexpected result";
@@ -167,6 +171,7 @@ router.post("/registration", async (req, res) => {
       res.json({ error: "Internal Server Error" });
     }
   }
+  // res.render("courses/registration");
 });
 
 router.get("/:courseId", async (req, res) => {
@@ -419,6 +424,7 @@ router.use("/:courseId*", async (req, res, next) => {
     }
 
     let belongs = false;
+    // console.log(course);
     if (course.sections.length > 0) {
       course.sections.forEach((section) => {
         if (
@@ -509,6 +515,8 @@ router.route("/:courseId/materials").get(async (req, res) => {
       files: data[0].courseLearning.files,
       allFiles: organizedHeadings,
       dropdown: sectionModulePairs,
+      //
+      // sectionID,
     };
 
     res.render("courses/materials", renderObjs);
@@ -564,6 +572,8 @@ router
     fileSizesLimiter,
     async (req, res) => {
       try {
+        // console.log(req.files);
+        // console.log(req.body.heading);
 
         const heading = verify.header(req.body.heading);
         let { courseId } = req.params;
@@ -590,6 +600,7 @@ router
             files[key].name
           );
           fileName = files[key].name;
+          // console.log(filepath);
           files[key].mv(filepath, (err) => {
             if (err)
               return res.status(500).json({ status: "error", message: err });
@@ -631,6 +642,7 @@ router.get("/:courseId/materials/downloadFile", async (req, res) => {
     }
 
     let belongs = false;
+    // console.log(course);
     if (course.sections.length > 0) {
       course.sections.forEach((section) => {
         if (

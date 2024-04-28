@@ -5,6 +5,7 @@ import getUserByID from "./getUserInfoByID.js";
 
 import verify from "../../data_validation.js";
 import hash from "../hashPassword.js";
+import { notifyOfChangedPassword } from "../emails/sendPasswordResetEmail.js";
 
 async function setPassword(id, password) {
   try {
@@ -33,6 +34,7 @@ async function setPassword(id, password) {
 
   const useremail = await getUserByID(id, { _id: 0, email: 1 });
 
+  await notifyOfChangedPassword(useremail.email);
   return result;
 }
 

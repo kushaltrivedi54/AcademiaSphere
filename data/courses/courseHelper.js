@@ -1,4 +1,5 @@
 import verify, { throwErrorWithStatus } from "../../data_validation.js";
+import { ObjectId } from "mongodb";
 
 export const validateCourse = (
   courseNumber,

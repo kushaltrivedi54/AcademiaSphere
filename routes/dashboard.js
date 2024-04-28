@@ -1,4 +1,6 @@
 import { Router } from "express";
+import * as courseData from "../data/courses/courses.js";
+import getUserByID from "../data/users/getUserInfoByID.js";
 import * as prefRoute from "../data/users/setPreference.js";
 import routeError from "./routeerror.js";
 
@@ -11,9 +13,26 @@ router
         return res.render("admin/dashboard");
       }
 
-      let renderObjs = {};
-      return res.render("public/dashboard", renderObjs);
+      const userInfo = await getUserByID(req.session.userid);
+      const registeredCourses = userInfo.registeredCourses || [];
 
+      const requestedSections = await courseData.getSectionsByIds(
+        registeredCourses.map((course) => course)
+      );
+
+      let renderObjs = {};
+      const workspace = requestedSections.map((section) => {
+        return {
+          courseName: section.courseName,
+          courseNumber: section.courseNumber,
+          sectionType: section.sectionType,
+          sectionName: section.sectionName,
+          sectionId: section.sectionId.toString(),
+        };
+      });
+
+      renderObjs.workspace = workspace;
+      return res.render("public/dashboard", renderObjs);
     } catch (e) {
       routeError(res, e);
     }

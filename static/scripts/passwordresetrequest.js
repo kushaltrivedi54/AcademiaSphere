@@ -13,8 +13,9 @@ function sendForm() {
       const result = await request("PUT", "/resetpassword", csrf, data);
 
       if (result.successful) {
-        $("#loginform").text(
-          `An email has been sent to ${data.email} with instructions to reset your password.`
+        $("#loginform").html(
+          `An email has been sent to ${data.email} with instructions to reset your password.
+          <br><br><a href="/">Go to Login</a>`
         );
       }
     } catch (e) {

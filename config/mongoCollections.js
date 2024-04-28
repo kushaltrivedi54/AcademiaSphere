@@ -15,3 +15,7 @@ const getCollectionFn = async (collection) => {
 
 export const users = await getCollectionFn("users");
 export const passwordresets = await getCollectionFn("passwordresets");
+export const courses = await getCollectionFn("courses");
+export const departments = await getCollectionFn("departments");
+export const assignments = await getCollectionFn("assignments");
+export const finalgrades = await getCollectionFn("finalgrades");

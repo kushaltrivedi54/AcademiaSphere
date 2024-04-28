@@ -17,10 +17,15 @@ if (_isDarkMode) {
   $("html").css("--activeStripeTableColor", stripeTableColor2);
 }
 $(document).ready(function () {
-  if (_isDarkMode) {
+  if (_isDarkMode == 1) {
     $("body").addClass("dark");
     $("#switch").addClass("switched");
     $(".iconSwitch").addClass("invertColor");
+  }
+  else {
+    $("body").removeClass("dark");
+    $("#switch").removeClass("switched");
+    $(".iconSwitch").removeClass("invertColor");
   }
 
   $("#switch").on("click", async function () {
