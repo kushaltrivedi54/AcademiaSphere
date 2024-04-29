@@ -3,7 +3,7 @@ import { randomUUID } from "crypto";
 import { users } from "../../config/mongoCollections.js";
 
 import verify from "../../data_validation.js";
-import { sendPasswordResetEmail } from "../emails/sendPasswordResetEmail.js";
+import initiatePasswordReset from "../users/initiatePasswordReset.js"
 
 async function createUser(firstname, lastname, email, identification, type) {
   firstname = verify.name(firstname);
@@ -75,9 +75,10 @@ async function createUser(firstname, lastname, email, identification, type) {
     throw error;
   }
 
+  const result = await initiatePasswordReset(email);
+
   try {
-    await sendPasswordResetEmail(email, secret);
-    return { successful: true };
+    return { successful: result.successful };
   } catch (e) {
     // cleanup on failed email and rethrow the error
     await usercol.deleteOne({ _id: insertion.insertedId });
