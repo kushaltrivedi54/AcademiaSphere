@@ -35,7 +35,7 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.mongoServerUrl,
-      dbName: "UMS",
+      dbName: process.env.mongoDbname,
     }),
   })
 );

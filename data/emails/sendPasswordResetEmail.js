@@ -11,22 +11,21 @@ async function sendPasswordResetEmail(email, secret) {
 
   const emailer = await SMTPConnect();
   const message = {
-    from: process.env.SMTPUsername,
+    from: process.env.SMTPEmail,
     to: email,
     subject: `Password reset`,
-    text: `If you have requested that your password be reset, please use the link below to complete the reset.
-    If you did not request a password reset no further action is required from you at this time.
-    
+    text: `Please use the link below to setup new password.
+
     ${resetdomain}`,
+
     html: `
     <!doctype html>
     <html>
         <body>
-            <p>If you have requested that your password be reset, please use the link below to complete the reset.</p><br>
-            <p>If you did not request a password reset no further action is required from you at this time.</p><br>
-            <a href="${resetdomain}">Reset Password</a><br>
+            <p>Please use the link below to setup new password.</p><br>
+            <a href="${resetdomain}">Set Password</a><br>
             <br>
-            Please use this link if the button is not working: <a href="${resetdomain}">${resetdomain}</a>
+            Please use this link if the button is not working: <br><a href="${resetdomain}">${resetdomain}</a>
         </body>
     </html>
     `,
@@ -52,15 +51,15 @@ async function notifyOfChangedPassword(email) {
   const emailer = await SMTPConnect();
 
   const message = {
-    from: `account-services@${process.env.MailServerDomain}`,
+    from: process.env.SMTPEmail,
     to: email,
     subject: `Password Updated`,
-    text: `Your password has been changed. If you did not make this change, please notify abuse@${process.env.MailServerDomain}.`,
+    text: `Your password has been changed.`,
     html: `
     <!doctype html>
     <html>
         <body>
-            <p>Your password has been changed. If you did not make this change, please notify abuse@${process.env.MailServerDomain}.</p>
+            <p>Your password has been changed.</p>
         </body>
     </html>
     `,
