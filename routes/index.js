@@ -22,16 +22,16 @@ function route(app) {
   app.use("/styles", express.static("./static/styles"));
 
   app.use("/", sessionLocals);
-  app.use("/login", ratelimit.login);
+  //app.use("/login", ratelimit.login);
   app.use("/login", login);
 
-  app.use("/register", ratelimit.registration);
+  // app.use("/register", ratelimit.registration);
   app.use("/register", register);
 
-  app.use("/resetpassword", ratelimit.passwordresets); // Limit users to 1000 requests per 15 minutes
+  //app.use("/resetpassword", ratelimit.passwordresets); // Limit users to 1000 requests per 15 minutes
   app.use("/resetpassword", resetpassword);
 
-  app.use("/", ratelimit.general); // Limit users to 1000 requests per 15 minutes
+  //app.use("/", ratelimit.general); // Limit users to 1000 requests per 15 minutes
   app.use("/", signin); // Only allow signed in users to access routes below this one
 
   app.use("/logout", logout);

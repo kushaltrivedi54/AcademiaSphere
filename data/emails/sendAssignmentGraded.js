@@ -10,7 +10,7 @@ async function sendAssignmentGraded(userId, assignmentName) {
   const emailer = await SMTPConnect();
 
   const message = {
-    from: `assignments@${process.env.MailServerDomain}`,
+    from: process.env.SMTPEmail,
     to: user.email,
     subject: `Assignment Graded`,
     text: `Your grade for assignment ${assignmentName} has been updated.`,

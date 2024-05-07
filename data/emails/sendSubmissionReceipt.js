@@ -16,12 +16,11 @@ async function sendSubmissionReceipt(
   const emailer = await SMTPConnect();
 
   const message = {
-    from: `assignments@${process.env.MailServerDomain}`,
+    from: process.env.SMTPEmail,
     to: user.email,
     subject: `Assignment Submitted`,
-    text: `This is your confirmation that ${
-      assignment.assignmentName
-    } has been successfully submitted.
+    text: `This is your confirmation that ${assignment.assignmentName
+      } has been successfully submitted.
     
     Submission receipt:
     Submission ID: ${submissionId.toString()}
@@ -33,9 +32,8 @@ async function sendSubmissionReceipt(
     <html>
         <body>
             <h4>
-            This is your confirmation that ${
-              assignment.assignmentName
-            } has been successfully submitted.
+            This is your confirmation that ${assignment.assignmentName
+      } has been successfully submitted.
             </h4>
             <br>
             <p>

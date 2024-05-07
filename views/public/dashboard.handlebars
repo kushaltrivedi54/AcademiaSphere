@@ -3,6 +3,11 @@
         <img class="iconSwitch" src="./icons/dashboardCourse.svg" alt="loginIcon"> Workspace
     </div>
     <div class="my-auto text-muted fs-5" id="reportCount"></div>
+
+    {{#ifUserType 'Student' session_type}}
+    <div class="my-auto mx-5"><a class="btn btn-info" href="/transcript">Get Transcript</a></div>
+    {{/ifUserType}}
+
     <div class="form-floating ms-auto fs-6">
         <input class="form-control blockdisplay" type="text" placeholder="sad" id="searchInput">
         <label for="searchInput"><img class="iconSwitch" src="/icons/search.svg" alt="moduleIcon">
@@ -17,7 +22,14 @@
         <a class="text-decoration-none" href="/sections/{{sectionId}}">
             <div class="card glassEffect">
                 <div class="card-header glassEffect">{{courseNumber}}: {{courseName}}</div>
-                <div class="card-body">Section: {{sectionName}} | Delivery: {{sectionType}}</div>
+                <div class="card-body">
+                    <div class="col-12">
+                        Section: {{sectionName}}
+                    </div>
+                    <div class="col-12">
+                        Delivery: {{sectionType}}
+                    </div>
+                </div>
             </div>
         </a>
     </div>
